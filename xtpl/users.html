@@ -1,0 +1,144 @@
+<!-- BEGIN: users -->
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td>{SELECTOR_NUMROWS}</td>
+<td>{ADD_USER}</td>
+<td align="right" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+<tr><td align="center">
+	<!-- BEGIN: error -->
+	<table border="0" width="40%" cellspacing="1" cellpadding="5" bgcolor="#222222">
+	<tr>
+	<td align="center" width=100 bgcolor="#FFFFFF"><img src="{MAIN_HOST}images/ico-warning.jpg" width="40" height="35"></td>
+	<td bgcolor="#FFFFFF" class="error_text" width=400>{ERROR}</td>
+	</tr>
+	</table>
+	<br>
+	<!-- END: error -->
+	<!-- BEGIN: action -->
+	<table border="0" cellpadding="5" cellspacing="1" width="40%" class="inner_table_header">
+	<form action="users.php" method="post">
+	<input type="hidden" name="act" value="save">
+	{ID}
+	<tr bgcolor="#FFFFFF">
+	<td><span {CLASS_LOGN}>Login</span> (*)</td>
+	<td><input type="text" name="login" value="{LOGIN}" class="input1" size="30"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td><span {CLASS_PASSWORD}>Password</span> (*)</td>
+	<td><input type="password" name="password" class="input1"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td><span {CLASS_REPASSWORD}>Retype Password</span> (*)</td>
+	<td><input type="password" name="repassword" class="input1"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Permission</td>
+	<td>{PERMISSION}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td><span {CLASS_QUEUES}>Queues</span> (*)</td>
+	<td>{QUEUES}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Full name</td>
+	<td><input type="text" name="fullname" value="{FULLNAME}" class="input1" size="40"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Position</td>
+	<td><input type="text" name="position" value="{POSITION}" class="input1" size="40"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Signature</td>
+	<td><textarea name="signature" cols="40" rows="5" class="input1">{SIGNATURE}</textarea></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td colspan="2" align="right">
+	<input type="submit" value="Save" class="input1">
+	<input type="button" value="Back" class="input1" onmouseup="window.location.href='users.php'">
+	</td>
+	</tr>
+	</form>
+	</table><br>
+	<!-- END: action -->
+	
+	
+	<!-- BEGIN: profile -->
+	<table border="0" cellpadding="5" cellspacing="1" width="60%" class="inner_table_header">
+	<form action="profile.php" method="post">
+	<input type="hidden" name="act" value="save">
+	{ID}
+	<tr bgcolor="#FFFFFF">
+	<td><span {CLASS_LOGN}>Login</span> (*)</td>
+	<td><input type="text" name="login" value="{LOGIN}" class="input1" size="30" readonly="true"></td>
+	</tr>
+	
+	<tr bgcolor="#FFFFFF">
+	<td>Full name</td>
+	<td><input type="text" name="fullname" value="{FULLNAME}" class="input1" size="40"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Position</td>
+	<td><input type="text" name="position" value="{POSITION}" class="input1" size="40"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Signature</td>
+	<td><textarea name="signature" cols="60" rows="6" class="input1">{SIGNATURE}</textarea></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td colspan="2" align="right">
+	<input type="submit" value="Save" class="input1">
+	<input type="button" value="Back" class="input1" onmouseup="window.location.href='users.php'">
+	</td>
+	</tr>
+	</form>
+	</table><br>
+	<!-- END: profile -->
+	
+	
+	
+	<!-- BEGIN: view -->
+	<table border="0" cellpadding="0" cellspacing="0" width="90%">
+	<tr>
+	<td align="right">{SELECTOR_LINKS}</td>
+	</tr>
+	</table>
+	<table border="0" cellpadding="5" cellspacing="1" width="90%" class="inner_table_header">
+	<tr>
+	{TABLE_HEADER}
+	</tr>
+	<!-- BEGIN: list -->
+	<tr bgcolor="#FFFFFF">
+	<td align="center">{NUM}</td>
+	<td align="center">{ACTIVE}</td>
+	<td>{LOGIN}</td>
+	<td>{FULLNAME}</td>
+	<td>{POSITION}</td>
+	<td>{PERMISSION}</td>
+	<td>{QUEUES}</td>
+	<td align="center">{ACCESS}</td>
+	<td align="center">{ACTION}</td>
+	<td align="center">
+	{LAST_LOGIN}
+	<br><br>
+	<b>Log in history</b>
+	<div style="position:relative; left:0px; top:0px; width:100%; height: 60px; z-index:1; overflow: auto; visibility: visible;">
+	{LOGIN_HISTORY}
+	<div>
+	</td>
+	<td align="center">{CREATED}</td>
+	</tr>
+	<!-- END: list -->
+	</table>
+	<table border="0" cellpadding="0" cellspacing="0" width="90%">
+	<tr>
+	<td align="right">{SELECTOR_LINKS}</td>
+	</tr>
+	</table>
+	<!-- END: view -->
+<br><br>
+</td></tr>
+</table>
+<!-- END: users -->

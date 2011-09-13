@@ -1,0 +1,612 @@
+[ALTER test_memb_id]
+<!--#include virtual="/inc/_begin.inc" -->
+[/ALTER]
+[MODULE data]area=Home[/MODULE]
+[MODULE data]title=requestor[/MODULE]
+[ALTER test_memb_id]
+[INCLUDE /inc/_begin.inc]
+[/ALTER]
+[INCLUDE /inc/_db.inc]
+[INCLUDE /inc/_access.inc]
+[TST test_memb_id]
+	[SQL memb select name,cname from confident.ap_members where id="[id/-1]"]
+	<A name=id> Verife name! <b>[memb.name/"<font color=red>Did not found member with id=[id/]! </font>"] [memb.cname/]</b></a>
+	[RAISE stop]
+[/TST]
+[TST rate,id]
+	[SQL ok update ccssi.rt_tickets set rate='[rate/]' where id=[id]]
+	[SQL ok insert into logs2 values (NOW(),[user.id],[user.id],-1,[id/],"[rate/]","CCSS: rate")]
+	<i>Thank you for your rate!<br>
+	We hope we will improve our services with your help!</i>
+	[RAISE stop]
+[/TST]
+
+[TST complain,id]
+	[INCLUDE /inc/_db.inc]
+	[SQL ok UPDATE ccssi.rt_tickets SET complain=NOW() WHERE id='[id]']
+	[SQL ok insert into logs2 values (NOW(),[user.id],[user.id],-1,[id/],"complain","CCSS: complain")]
+	[MODULE mail]From: ccss
+To: andrew@mail
+Subject: Complain for Ticket [id] from members!	
+
+	See on ticket!
+	http://ccssi.[data.who_url]/show_ticket.php?ticket_id=[id]
+	[/MODULE]
+	
+	<font color=red><i>We apologize for a delay with the answer.<br>
+Now your question on the special control!</i></font>
+	[RAISE stop]
+[/TST]
+[TST quickhelp]
+<h2><font color="#CC3300">New support system - quick help.</font></h2>
+<p>We constantly improve the quality of our services and we offer you a new support system.The basic property of our new system is the following: you ask questions and receive answers to your questions directly on our website.</p>
+<p>Unfortunately cases of loss of electronic correspondence have recently become frequent as a result of wrong blocking by spam-filters.</p>
+<p>Therefore now all the dialogues with our support center is held only through our web server. As a result the employees of our support service will work more efficiently as they don't need to fight against spam and viruses getting through our support system. You can see the whole history of correspondence at all your questions and supervise the time spent by our support center to answer your question or to resolve your problem. As well you can estimate the quality of our answers that will allow us to raise up an overall performance of a support center.</p>
+<p>How to use our new support: You should log in, go and open "<b>My support area</b>" and write your question. Next time while logging in on our site if you have received an answer to your question from our support center you will be notified about it immediately. You will be able to trace the current status of your request, you will be able to see who is working over your request as well.</p>
+<p>You will be able to write any comments and definitions any time. The answer to your question will be accessible on the support page constantly, as well you will receive a notice to your email address.</p>
+<p><b>Note:</b> we do not guarantee the notice delivery to your email address as it maybe wrongly blocked by post systems of the third parties.</p>
+<p>If you don't receive any answer to your question within more than 2 days you have an opportunity to send a complaint, you will need to go to our support center, to open your question, and to press the button "to send a complaint ". In this case your question will be taken under a special control and we will investigate why there is a delay with a reply to your question.</p>
+<p> Thanks... We try to improve in every possible way the quality of our services.<br>
+	    Confidential Connections team!</p>
+<input type="submit" name="Submit" value="Close this windows now" onClick="window.close();">
+		
+	[RAISE stop]
+[/TST]
+
+[TST Submit]
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- submit ticket or comments to ticket-->
+	[ALTER reopen]
+		[ALTER question,subj]
+			<span class=err>You must write your QUESTION and SUBJECT to us!<br>
+			<a href="requestor.rpx">Back and retype</a>!</span>
+		[RAISE final]
+		[/ALTER]
+	[/ALTER]
+	
+	[TST memb_id]
+		[MODULE data]db=ccss[/MODULE]
+		[SQL memb select id,name,cname,email from confident.ap_members where id=[memb_id]]
+		[SQL pays select 'true' as golden from pays where uid=[memb_id] and ok='1' limit 1]
+	[/TST]
+	[ELSE][MODULE data]db=watcher[/MODULE][/ELSE]
+	
+	[IF '[data.db]'=='watcher']
+		[ALTER f.user]
+		<div>Sorry please select leader who will watch your problem.<br>
+			</div>
+		[RAISE final]
+		[/ALTER]
+		
+		[SQL ok INSERT INTO watcher.body SET body_text = '[question/]']
+		[SQL bid SELECT LAST_INSERT_ID() as id]
+		[SQL watchers SELECT id,login,email,name FROM support.users where id in ([f.user])]
+		
+		[SQL ok INSERT INTO watcher.tasks SET `subject`='[subj/"No subject"]', `body_id`=[bid.id],
+					`owner`=[user.id], `group`=5, `startdate`=NOW(),`leader`=[watchers.id]]
+		[SQL tid SELECT LAST_INSERT_ID() as id]
+					
+			[SQL ok INSERT INTO watcher.watchers VALUES ([tid.id],[user.id],1,NOW())]
+			[BL watchers]
+				[IF [watchers.id]!=[user.id]]
+				 [SQL ok INSERT INTO watcher.watchers VALUES([tid.id],[watchers.id],1,NOW())]
+				 [/IF]
+			[/BL]
+		
+		
+	[/IF]
+
+[ELSE]	
+<!-- start create ticket in new rt -->
+	[SQL ok INSERT INTO ccss.rt_bodies 
+		SET body = '[TST memb_id]Manager [user.name] ([user.login] #[user.id]) received this question by phone or by email:\n========================================================\n\n[/TST][question/]']
+	[SQL bid SELECT LAST_INSERT_ID() as id]
+<!--user_id = 1   id nobody user-->
+	
+	[TST reopen]
+		[SQL ok update ccss.rt_tickets set status='opened',updated=NOW(), lastsee=NOW() where id=[id]]
+		[SQL ok insert into ccss.rt_tickets_actions
+			set ticket_id=[id], message_type='incoming', body_id=[bid.id],now_ticket_status='opened',created=NOW()]
+	[/TST]
+	[ELSE] 
+<!-- need create new tickets -->
+		[SQL gid SELECT id FROM ccss.rt_groups WHERE name='[to]'] 
+		[SQL ok INSERT INTO ccss.rt_tickets 
+				SET from_email='[memb.email/user.email]', subject='[subj/"No subject"]', body_id='[bid.id]', status='new', group_id='[gid.id]', 
+				updated=now(), created=now(), cc_member_id='[memb.id/user.id]' , 
+				cc_fname='[memb.name/user.name]', cc_lname='[memb.cname/]', golden='[pays.golden/"false"]',user_id='1', 
+				website='http://[data.who_url]/', lastsee=NOW(),owner_attention='yes']
+		[SQL tid SELECT LAST_INSERT_ID() as id]
+	[/ELSE]
+	 
+	
+			  
+<!-- need add mail to members here! --->
+	[MODULE mail]To: [memb.email/user.email]
+Bcc: andrew@confidentialconnections.com
+From: [to/"support"]@[data.who_url]
+Subject: Your support ticket #[id/tid.id] on [data.who_fullname] /[[CCSS:[id/tid.id]]]
+
+	Hello, [memb.name/user.name].
+
+	Thank you for your question.
+	We will send you a notification about our answer ASAP.
+	To see the answer you need to log in at the site and to visit our support center.
+	Please, remember your ticket id [id/tid.id].
+
+	You can recieve answer directly from our site from this URL:
+	[TST memb_id]http://www.[data.who_url]/support.rpx?id=[id/tid.id][/TST]
+	[ELSE]https://support.[data.who_url]/support.rpx?id=[id/tid.id][/ELSE]
+
+	Attention:
+	We issue the answers to your questions only on our website.
+	We also send a copy of our answer to your email address
+	but we don't give the guarantee that it will reach you.
+	That's why we strongly recommend to receive an answer to your question on our site.
+
+
+	All you need to do for this is to log in on the site
+	and our system will inform you if the answer to your question is available.
+
+	----- Question body ------
+	[subj/]
+	[question/]
+	--------------------------
+
+	Regards, 
+	Support Team
+	[data.who_fullname]
+[/MODULE]
+[/ELSE]
+
+
+
+<div align="center">
+			[ALTER memb_id]<h2 align="center">Thank you, for your question!</h2>
+			  We will send you a notification about our answer ASAP.<br>
+			  To see the answer you need log in at the site and visit our support center.<br>
+			  Please, remember your ticket id <font color="#CC3300"><b>[id/tid.id]</b></font>.<br>
+			  You can recieve answer directly from <a href="/requestor.rpx">Requestor</a> are on support menu <a href="http://www.[data.who_url]/requestor.rpx?id=[id/tid.id]"><br>
+			  </a><b><br>
+			  <font color="#CC3300">Attention:</font></b> We issue the answers to your questions only on our website.
+			  <br>
+			  We also send a copy of our answer to your email address but we don't give the guarantee that it will reach you.<br>
+			  That's why we strongly recommend to receive an answer to your question on our site.<br>
+			  All you need to do for this is to log in on the site and our system will inform you if the answer to your question is available.
+		</p>
+</div>
+<p align="center"><i>NOC Support team.</i><br></p>
+[/ALTER]
+[ELSE]	<p align="center">Ticket was added to Requestor from <br>
+		<b>[memb.name] [memb.cname] #[memb_id] </b></p>
+<p align="center">into <b>[to]</b> area </p>
+[/ELSE]
+			<p align="center"><a href="/requestor.rpx">Return to Requestor center</a></p>
+			
+			<fieldset style="width: 80%; padding-bottom: 10px; padding-left: 10px; background-color:#FBFAF6;">
+			<legend>&nbsp;<b>This is your question. Ticket #</b><b>[id/tid.id]&nbsp;</b></legend>
+			From: [memb.name/user.name] [memb.cname/] [memb_id/]<br>
+			<br>
+			Subject: [subj]<br>
+			[question]<br>
+			</fieldset>
+			
+			<br>
+			<br>
+[RAISE final]
+[/TST]
+			  
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ show ticket ---------->
+[TST id]
+		[TST removeattention]
+			[SQL ok update ccssi.rt_tickets set owner_attention=[?[removeattention]==1:'no':'yes'] where id=[id] and cc_member_id=[user.id]]
+			[MODULE redirect]requestor.rpx[/MODULE]
+		[/TST]
+		  [SQL tic SELECT id, status, subject, body_id, created, updated, user_id, rate, complain, owner_attention, 
+			  DATE_FORMAT(created,"%d %M %Y") as fdate, IF(updated > lastsee,1,0) as new, TO_DAYS(current_date)-TO_DAYS(updated) as lastupd			  
+			  FROM ccssi.rt_tickets
+			  WHERE [TST email]from_email='[email]'[/TST][ELSE]cc_member_id=[user.id][/ELSE] AND id=[id]
+			  ORDER BY created]
+			  
+		
+			  
+			  
+
+<h2 style="text-indent: 0px; color:#993300">&nbsp;</h2>
+<table width="100%" border="0">
+		<tr>
+				<td><h2><span style="text-indent: 0px; color:#993300"><font color="#000000">Question:</font>&nbsp;[tic.subject/"Ticket not found or need authorization!"] <br>
+						<font color="#000000">Ticket</font> #[tic.id] <font color="#000000">Status:</font> [tic.status] </span></h2></td>
+				<td width="10%" align="right" nowrap><span style="text-indent: 0px; color:#993300"><a href="/requestor.rpx"><font color="#000000">
+					<img src="/img/ico_return.gif" width="40" height="40" align="right" alt="Back to my support center" border="0"></font></a></span>
+							 [IF '[tic.owner_attention]'=='yes']
+		 	[IF '[tic.status]' not in ('new','opened')]
+				<img src="/img/smi_outside.gif"><a href="/requestor.rpx?id=[id]&removeattention=1">Remove my attentions</a>
+			[/IF]
+		 [/IF][ELSE]
+		 	<img src="/img/smi_outside.gif"><a href="/requestor.rpx?id=[id]&removeattention=0">Pick up</a>		 
+		 [/ELSE]					</td>
+		</tr>
+</table>
+
+<table border="0">
+	[BL tic]
+		[SQL ok update ccssi.rt_tickets set lastsee=NOW() where id=[id]]
+		[SQL staff SELECT name as fullname from support.users where id=[tic.user_id]]
+		[SQL init_body select body from ccssi.rt_bodies where id=[tic.body_id]]
+			    
+	<tr>
+	<td width="15%" nowrap bgcolor="#FFFFDD" valign="top">
+		[fdate]<br>
+		<b><img src="/img/ico-coments.gif" width="20" height="20" align="left">[user.name]</b><br>	</td>
+	<td valign="top" class="dash"><font color="#333366">
+		[MODULE replace]\n			    
+	    <p style='text-indent: 0px; color:#333366'>
+		[init_body.body/]
+		[/MODULE]	</font>	</td>
+	</tr>
+		[SQL acts SELECT a.*, u.name as fullname,u.ugroup, u.position, DATE_FORMAT(a.created,"%d %M %Y") as fdate
+		FROM ccssi.rt_tickets_actions a 
+		LEFT JOIN support.users u ON u.id=a.now_user_id 
+		WHERE a.ticket_id=[id] /*and a.body_id!=0*/ and a.message_type!='comment']
+		
+		[BL acts]
+			[SQL answers select body from ccssi.rt_bodies where id=[acts.body_id]]
+	[IF [body_id]!=0]
+	<tr>	
+	<td width="15%" nowrap bgcolor="[?'[fullname]'!='None':#D2D5E3:#FFFFDD]" valign="top">
+			[fdate]<br>
+			[IF '[fullname]'=='None']<img src="/img/ico-coments.gif" width="20" height="20" align="left"><b>[user.name]</b>[/IF]
+			[ELSE]<img src="/img/ico_group2.gif" width="25" height="20" align="left"><b>[fullname]</b><br>
+				  <font size="-2">[position] / [ugroup]</font>[/ELSE]			</td>
+	<td valign="top" class="dash">
+			<font color="[IF '[fullname]'=='None']#000000[/IF][ELSE]red[/ELSE]">
+			
+				[MODULE replace]\n
+		  		<p style='text-indent: 0px;color:[IF '[fullname]'=='None']#000000[/IF][ELSE]#336633[/ELSE]'>
+				[answers.body/&nbsp;]
+				[/MODULE]			</font></td></tr>
+	[/IF][ELSE]
+	<tr bgcolor="#F2F2F2">
+	<td colspan="2" valign="top" nowrap>
+			<font color="#666666">			[fdate]			<b>[fullname] </b>[IF '[user_action]'=='changed_status']change status from <b>[prev_ticket_status]</b> to <b>[now_ticket_status]</b> [/IF]
+				[IF '[user_action]'=='changed_group']change group to [SQL gr select name from ccssi.rt_groups where id=[now_group_id]] <b>[gr.name]</b>[/IF]
+				[IF '[user_action]'=='take_ticket']take this ticket for working[/IF]
+				[IF '[user_action]'=='gave_ticket']gave this ticket from [SQL whowas select name,ugroup from support.users where id=[prev_user_id]]<b>[whowas.name] / [whowas.ugroup]</b> [/IF]		 	</font></td>
+	</tr>[/ELSE]
+		[/BL]
+
+		[IF [acts.$height]!=0]
+			[IF '[rate]'!='None']
+			<tr>
+			<td width="15%" nowrap bgcolor="#EEEEEE" valign="top">Current rate:</td>
+			<td valign="top"><b><font color="#993300">[rate]</font></b></td>
+			</tr>
+			[/IF]
+			[IF '[status]' in ('closed','removed')]
+				
+			<tr>
+			<td width="15%" nowrap bgcolor="#EEEEEE" valign="top">Please rate this answer:</td>
+			<td valign="top">
+								
+			<div id="myrate">
+			<form target="dorate" action="requestor.rpx">
+			<input type=hidden name="id" value="[id]">
+			<select name="rate">
+			<option value="" selected>--- select ---</option>
+			<option value="My problem (question) has been resolved completely and in short terms">My problem (question) has been resolved completely and in short terms</option>
+			<option value="My problem (question) has been resolved but it took too much time">My problem (question) has been resolved but it took too much time</option>
+			<option value="I am not satisfied with the reply I received">I am not satisfied with the reply I received</option>
+			<option value="I don't understand your reply">I don't understand your reply</option>
+			<option value="My problem (question) has not been resolved">My problem (question) has not been resolved</option>
+			</select>
+			<input type="submit" name="Submit" value="Rate!" onClick="document.getElementById('myrate').style.display='block';document.getElementById('dorate').style.display='block';this.form.submit();">
+			</form>
+			</div>
+			<iframe name="dorate" id="dorate" style="display: none; background: white; border:0" width=100% frameBorder=0 scrolling=no></iframe>			</td>
+			</tr>
+			[/IF]
+		[/IF]
+		[IF '[tic.complain]'=='0000-00-00 00:00:00' and [lastupd] > 2 and '[status]' not in ('closed','removed') ]
+		<!-- -->
+		<tr>
+		<td width="15%" nowrap bgcolor="#EEEEEE" valign="top">What happened?</td>
+		<td valign="top">
+		<b style="color:#993300">Your problem (question) has not been resolved within [lastupd] days!</b>
+		<form action="requestor.rpx" target="doanswer">
+		<input type="submit" name="Submit" value="Please explain me, why my question still not answer?" onClick="this.form.style.display='none';document.getElementById('doanswer').style.display='block';this.form.submit();">
+		<input type=hidden name="complain" value="1">
+		<input type=hidden name="id" value="[id]">
+		</form>
+		<iframe  name="doanswer" id="doanswer" style="display: none; background: white;" width=100% frameBorder=0 scrolling=no></iframe>		</td>
+		</tr>
+		[/IF]
+		<tr>
+		<td width="15%" nowrap bgcolor="#EEEEEE" valign="top">Write your comments or answer:</td>
+		<td valign="top">
+		<form method=POST action="requestor.rpx" name="addcomment">
+		<input type=hidden name="reopen" value="1">
+		<input type=hidden name="Submit" value="1">
+		<input type=hidden name="id" value="[id]">
+		<textarea name="question" cols="60" rows="10" wrap="VIRTUAL"></textarea>
+					<br>
+					<br>
+		<input type="submit" name="act" value="Send my question and reopen this ticket again!" onClick="this.disabled = true; this.value = 'sending...';this.form.submit();">
+		</form>		</tr>
+
+		<tr>
+		<td width="15%" nowrap bgcolor="#EEEEEE" valign="top">Current question status:</td>
+		<td valign="top">
+		<font color="#336633">
+		<b><font color="#993300">[status] </font></b></font>[IF '[status]'=='new']We will contact you shortly![/IF]</td>
+		</tr>
+																	
+	[/BL]
+	[ELSE]
+	<tr>
+	<td colspan=2>Ticket  with number<b> [id]</b> [TST email] from member with email<b> [email]</b>[/TST] did not found or need authorizations!</td>
+	</tr>
+</table>
+	[RAISE traceticket]
+	[/ELSE]
+	</table>
+	[RAISE final]
+[/TST]
+	<br>
+	<br>
+	<table border="0" bgcolor="#FBFAF6">
+						<tr>
+								<td nowrap><h2><a href="javascript: document.getElementById('sup').style.display='none';document.getElementById('memb').style.display='none';document.getElementById('ticket').style.display='block';void(0);"><img src="/img/ico/folders.gif" width="49" height="46" border="0" align="left">Show my <br>
+								tickets list</a> </h2></td>
+								<td nowrap><h2><a href="javascript: document.getElementById('sup').style.display='block';document.getElementById('memb').style.display='none';document.getElementById('ticket').style.display='none';void(0);"><img src="/img/ico_help.gif" width="40" height="40" border="0" align="left"> Ask
+										my own <br>
+								question to managers </a></h2></td>
+								[IF [acl.Members] or [acl.Duty]]<td nowrap><h2><a href="javascript: document.getElementById('sup').style.display='none';document.getElementById('memb').style.display='block';document.getElementById('ticket').style.display='none';void(0);"> <img src="/img/ico/users.gif" width="47" height="41" border="0" align="left"> Add question<br>
+								from members</a></h2></td>[/IF]
+						</tr>
+</table>		
+	<div id="sup" style="display:none">
+						
+						<form method="post" name="f" onSubmit="MM_validateForm('email','','RisEmail','question','','R');return document.MM_returnValue">
+								<fieldset style="width: 80%; padding-bottom:0px; background-color:#FBFAF6;">
+										<legend><b>&nbsp;Ask a question to us!&nbsp;</b></legend>
+					<table width="70%" border="0" cellspacing="3">
+							<tr align="left">
+									<td valign="top" align="right" nowrap width="20%">Create ticket in</td>
+					<td>
+					<p>Please specify your problem and select user who will be resolve your problem</p>
+						</td>
+					</tr>
+							
+							<tr align="left">
+									<td valign="top" align="right">My name</td>
+					<td><font size="-1">
+							<b>[user.name/] [user.cname/]</b>										/						<font color="#CC3300">If you know Russian, please write on Russian language</font></font></td>
+					</tr>
+							
+							<tr align="left">
+									<td valign="top" align="right">Subject</td>
+					<td>
+							<input name="subj" type="text" id="subj" size="75" maxlength="120"><br>
+							<font color="#CC3300" size="-2">IMPORTANT: please write real subject with short name of your problem or question! </font></td>
+					</tr>
+							
+							<tr align="left">
+									<td valign="top" align="right">Questions</td>
+					<td valign="top"><font size="-1">
+							<textarea name="question" cols="80" rows="20" wrap="VIRTUAL"></textarea>
+							</font></td>
+					<td align="right" valign="top">
+					[SQL leaders SELECT count(*) as count,t.leader,u.login,u.id FROM watcher.tasks t
+							LEFT JOIN support.users u ON t.leader=u.id
+							GROUP by t.leader ORDER by count desc]
+					
+					<table>
+					<tr>
+					<td colspan="2"><b>Select Leader</b>
+					</td>
+					</tr>	
+					[BL leaders]
+					
+					<tr>
+					<td align="left">
+					<input type="checkbox" name='user' value="[leaders.id]">[leaders.login]</input></td>
+					
+					</tr>
+					
+					[/BL]
+					<!--[IF 0]
+					<tr>
+					<td><b><a href="#" onClick="DivChange('programmers')">Programmers</a></b></td>
+					</tr>
+					
+					<tr><td>
+					<div id="programmers" style="display:none">
+					<table>
+					[BL prog]
+					<tr>
+					<td align="left">
+					<input type="checkbox" name='user' value="[prog.id]">[prog.login]</input></td>
+					</tr>
+					[/BL]
+					</table>
+					</div></td></tr>
+					
+					<tr>
+					<td><b><a href="#" onClick="DivChange('bosses')">Chiefs</a></b></td>
+					
+					</tr>
+					[SQL boss SELECT u.id,u.login FROM support.users u LEFT JOIN support.acl acl ON acl.id=u.id
+						WHERE acl.BranchBoss='1' and acl.BranchBill=1 and u.pass!='---']
+					
+					<tr><td>
+					<div id="bosses" style="display:none">
+					<table>
+					[BL boss]
+					
+					<tr>
+					<td align="left">
+					<input type="checkbox" name='user' value="[boss.id]">[boss.login]</input></td>
+					
+					</tr>
+					
+					[/BL]
+					</table>
+					</div></td></tr>
+					
+					
+					
+					<tr>
+					<td><b><a href="#" onClick="DivChange('managers')">Managers</a></b></td>
+					</tr>
+					[SQL managers SELECT * FROM support.users WHERE ugroup='Kharkov' AND access=1 AND pass!='---']
+					<tr><td>
+					<div id="managers" style="display:none">
+					<table>
+					
+					[BL managers]
+					<tr>
+					<td align="left">
+					<input type="checkbox" name='user' value="[managers.id]">[managers.login]</input></td>
+					</tr>
+					[/BL]
+					[/IF] -->
+					</table>
+					</div></td></tr>
+
+					
+					
+					</table>
+					</td>
+					</tr>			
+							<tr align="left">
+									<td valign="top">&nbsp;</td>
+					<td valign="top">
+							<input type="hidden" name="Submit" value="submit">
+							<input type="submit" name="Submit" value="Ask a question!" onClick="this.disabled = true; this.value = 'sending...';this.form.submit();">			</td>
+					</tr>
+					
+					
+							</table>
+					</fieldset>
+					</form>
+</div>
+				<div id="memb" style="display:none">
+						
+						<form method="post" name="from_memb" onSubmit="MM_validateForm('question','','R');return document.MM_returnValue">
+								<fieldset style="width: 80%; padding-bottom:0px; background-color:#FBFAF6;">
+										<legend><b>&nbsp;Write question from member!&nbsp;</b></legend>
+					<table width="70%" border="0" cellspacing="3">
+							<tr align="left">
+									<td valign="top" align="right" nowrap width="20%">Create ticket in</td>
+					<td><select name="to" class="inputbox">
+							<option value="members" selected>Members support</option>
+							<option value="billing">Billing questions</option>
+							<option value="trips">Trips and Branches questions</option>
+							<option value="webmaster">Webmaster</option>
+							<option value="chiefs">Company president's</option>
+							<option value="unsubscribe">Unsubscribe Me</option>
+							<option value="abuse">Anti-Scam Abuse</option>
+					</select> <font size="-2">i get it from him by phone or email, 
+								all answers come to member directly!</font></td>
+					</tr>
+							
+							<tr align="left">
+									<td valign="top" align="right">Members ID </td>
+									<td>
+							<input name="memb_id" type="text" id="memb_id" size="10" maxlength="7" onChange="document.getElementById('memb_name').style.display='block';window.frames[['memb_name']].document.location.replace('requestor.rpx?test_memb_id=1&id='+document.from_memb.memb_id.value);void(0);">
+							<iframe src="/img/scan.gif" name="memb_name" width=431 marginwidth="0" height=30 marginheight="0" scrolling=no frameBorder=0 id="memb_name" style="display: none; background: white;"></iframe>							
+							<a href="javascript: MM_openBrWindow('/_print.rpx?do=findmemberid','findmemberid','scrollbar=yes,status=yes,resizable=yes,width=400,height=600')">Find number</a> </td>
+					</tr>
+							
+							<tr align="left">
+									<td valign="top" align="right">Subject</td>
+					<td>
+							<input name="subj" type="text" id="subj" size="75" maxlength="120"><br>
+							<font color="#CC3300" size="-2">Use only English language here! <br>
+							IMPORTANT: please write real subject with short name of your problem or question! </font></td>
+					</tr>
+							
+							<tr align="left">
+									<td valign="top" align="right">Questions</td>
+					<td valign="top"><font size="-1">
+							<textarea name="question" cols="100" rows="20" wrap="VIRTUAL"></textarea>
+					</font></td>
+					</tr>
+					
+							
+							<tr align="left">
+									<td valign="top">&nbsp;</td>
+					<td valign="top">
+							<input type="hidden" name="Submit" value="submit">
+							<input type="submit" name="Submit" value="Ask a question!" onClick="this.disabled = true; this.value = 'sending...';this.form.submit();">			</td>
+					</tr>
+							</table>
+					</fieldset>
+					</form>
+</div>
+	<div id="ticket" style="display:block">					
+	  			<fieldset style="width: auto; padding-bottom:0px; background-color:#FBFAF6;">
+						<legend><b>&nbsp;My tickets list&nbsp;</b></legend>
+		[SQL tic SELECT	  id,status,subject,body_id,created,updated,user_id,complain,owner_attention,
+			  DATE_FORMAT(created,		"%d %M %Y") as fdate,
+						IF(updated > lastsee,1,0) as new,
+						TO_DAYS(current_date)-TO_DAYS(updated) as lastupd
+						FROM ccssi.rt_tickets
+						WHERE cc_member_id=[user.id] AND website='http://[data.who_url]/'
+						[ALTER old]and owner_attention='yes'[/ALTER]
+						ORDER BY created DESC]
+						
+		[SQL tic SELECT t.id,t.status,t.subject,t.body_id, 
+						t.leader,DATE_FORMAT(t.startdate,"%d %M %Y") as fdate
+						FROM watcher.tasks t 
+						WHERE t.owner=[user.id] ]				
+						<a href="/requestor.rpx?old=1"><img src="/img/ico/b_search.png" width="16" height="16" border="0" align="absmiddle"> Show	my old	closed tickets</a>
+						<table border="0" width="100%">
+								[BL tic]
+								<tr [?'[status]' in ('removed','closed'): bgcolor="#EEEEEE":]>
+										<td width="15%" nowrap>
+												[?'[status]' not in ('closed','removed'):<img src="/img/ico/s_info.png" width="16" height="16" align="left">:<img src="/img/ico/s_okay.png" width="16" height="16" align="left">][fdate]<br>
+												#[id] Status: <b>[status]</b><br>		</td>
+								[SQL is_comment SELECT count(user_action) as new,date FROM watcher.tasks_actions 
+															WHERE task_id=[tic.id] AND user_action='comment'
+																GROUP by task_id order by date desc limit 1]
+																			
+				<td valign="top">
+						<b><a href="/task_view.rpx?id=[id]" class="red">Subj: [subject]</a> 
+								[IF [is_comment.new]>0]<font color="#CC3300"> / You have new answer here!</font> </b><br>
+						Posted [is_comment.date] days ago<b>[/IF]</b>
+						
+								[/BL]
+								[ELSE]
+								<tr>
+										<td colspan="3" nowrap bgcolor="#EEEEEE" valign="top"><br>
+												&nbsp;<img src="/img/ico/s_notice.png" width="16" height="16" align="absmiddle">&nbsp;You did not have any tickets...<br>		</td>
+				</tr>
+								[/ELSE]
+						</table>
+				</fieldset>
+				
+</div>
+<br>
+
+
+<table width="60%" border="0" align="center">
+		<tr>
+				<td background="/img/bg-sand.gif" class="componentBorder"><p>Dear menagers of Connections group. You can ask your question to NOC staff throught this page. 
+						Please do not use ICQ and emails for regular working question. We store all history of talking in our database for future use.<br>
+						<br>
+						For emergancy reason you can call to our support center directly to our menagers and night-duty by phones: <font color="#CC3300" size="+1">								+38 (057) 7580-256</font> or <font color="#CC3300" size="+1">										+1 (201) 984-3158</font> 
+						also avaible 
+				+38 (057) 7580-130 secretary of kharkov branch, +38 (057) 7580-259 webmasters department </p>
+			    <p>Skype.com account: <strong>ccusaduty</strong> </p></td>
+		</tr>
+</table>
+<br>
+<div align="center">
+<!-- <iframe src="chat_now.rpx"  frameborder="0" width="60%"></iframe> -->
+</div>
+
+ [TRAP final]
+[INCLUDE /inc/_end.inc]
+<!--#include virtual="/inc/_end.inc" -->
+[TRAP stop]

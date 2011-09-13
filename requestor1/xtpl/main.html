@@ -1,0 +1,53 @@
+
+<!-- BEGIN: main -->
+<html>
+<head>
+<title>Support system</title>
+
+<link href="css/style.css" rel="stylesheet" type="text/css"><script src="scripts/lib.js"></script>
+<META http-equiv="content-type" content="text/html; charset=cp1251">
+</head>
+<body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0" bgcolor="#FFFFFF" background="{MAIN_HOST}images/main_back.jpg">
+<table width="100%" height="100%" border="0" cellpadding="4" cellspacing="0">
+  <tr>
+    <td colspan="2" valign="top" height="30" bgcolor="#2B3D4E">
+        <table width="100%" border="0" cellpadding="10" cellspacing="0">
+        <tr>
+        <td>{TICKET_NAV}</td>
+        <td width="40">
+        <form id="website_form" action="" method="post">
+        <span class="whitetext1">Show tickets from:</span> {WEBSITE}
+        </form>
+        </td>
+	<td align="center"></td>
+        <td align="right">
+                   {MAIN_MENU}<span class="whitetext">({NAME_OF_USER})</span></td>
+        </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td width="10%" valign="top">
+        {FILE "xtpl/queues_list.html"}
+        {FILE "xtpl/stat_list.html"}
+    </td>
+    <td align="center" valign="top" width="90%">
+        {FILE "xtpl/account.html"}
+        {FILE "xtpl/queues.html"}
+        {FILE "xtpl/users.html"}
+        {FILE "xtpl/tickets.html"}
+        {FILE "xtpl/show_ticket.html"}
+        {FILE "xtpl/update.html"}
+        {FILE "xtpl/search_tickets.html"}
+        {FILE "xtpl/stat.html"}
+        {FILE "xtpl/stat_tickets.html"}
+        {FILE "xtpl/templates.html"}
+    </td>
+  </tr>
+  <tr>
+    <td height="18" valign="top" bgcolor="#2B3D4E" colspan="2">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>
+<!-- END: main -->

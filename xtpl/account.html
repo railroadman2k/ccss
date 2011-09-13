@@ -1,0 +1,57 @@
+<!-- BEGIN: account -->
+
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td>{SELECTOR_NUMROWS}</td>
+
+<td align="right" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+<tr><td><br>
+    <form id="form1" action="account.php" method="post">
+    <input type="hidden" id="act" name="act" value="">
+    {FILE "xtpl/group_operations.html"}
+    <table border="0" cellpadding="2" cellspacing="0" width="100%">
+    <tr>
+    <td align="right">{SELECTOR_LINKS}</td>
+    </tr>
+    </table>
+    <table border="0" cellpadding="5" cellspacing="1" width="100%" class="inner_table_header">
+    <tr>
+    {TABLE_HEADER}
+    </tr>
+    <!-- BEGIN: list -->
+    <tr class="unselected_row" id="tr{_ID}" onmouseover="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='active_row'" onmouseout="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='unselected_row'">
+    <td align="center">{NUM}</td>
+    <td align="center">{SELECT}</td>
+    <td align="center" class="small" width="50%">{SUBJECT}<br><span class="grey">ticket id:</span><span class="small2"> {TICKET_ID}</span></td>
+    <td align="center" class="small">{QUEUE}<br><br>
+	{SITE}</td>
+    <td align="center"><span class="{STATUS_CLASS}">{TICKET_STATUS}
+	
+	<br>
+	<br>
+		{ANSWERED}
+	
+	
+	</td>
+	<td class="small2">{PRIORITY}</td>
+    <td class="small">{FROM}</td>
+    <td align="center"><span class="{COMPLAIN_STATUS}">{COMPLAIN}</span></td>
+    <td align="center" class="small">{RATE}</td>
+    <td align="center" class="small">{UPDATED}</td>
+    <td align="center" class="small">{CREATED}</td>
+    </tr>
+    <!-- END: list -->
+    </table>
+    </form>
+    <table border="0" cellpadding="2" cellspacing="0" width="100%">
+    <tr>
+    <td align="right">{SELECTOR_LINKS}</td>
+    </tr>
+    </table><br><br>
+</td></tr>
+</table>
+<!-- END: account -->

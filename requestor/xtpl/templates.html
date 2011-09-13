@@ -1,0 +1,84 @@
+<!-- BEGIN: templates -->
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td>{SELECTOR_NUMROWS}</td>
+<td>{ADD_TEMPLATE}&nbsp;&nbsp;{DELETE_TEMPLATE}</td>
+<td align="right" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+<tr><td align="center"><br>
+<!-- BEGIN: error -->
+<table border="0" width="40%" cellspacing="1" cellpadding="5" bgcolor="#222222">
+<tr>
+<td align="center" width=100 bgcolor="#FFFFFF"><img src="{MAIN_HOST}images/ico-warning.jpg" width="40" height="35"></td>
+<td bgcolor="#FFFFFF" class="error_text" width=400>{ERROR}</td>
+</tr>
+</table>
+<br>
+<!-- END: error -->
+<!-- BEGIN: action -->
+	<table border="0" cellpadding="5" cellspacing="1" width="70%" class="inner_table_header">
+	<form action="templates.php" method="post">
+	<input type="hidden" name="act" value="save">
+	{ID}
+	<tr bgcolor="#FFFFFF">
+	<td>Temlate name (*)</td>
+	<td><input type="text" name="name" value="{TEMPLATE_NAME}" class="input1" size="60"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Web site (*)</td>
+	<td>{TEMPLATE_WEBSITE}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td colspan="2">
+	<table border="0" cellpadding="5" cellspacing="0" width="100%">
+	<tr>
+	<td width="70%" align="center" valign="top"><b>Template body</b> (*)<br><textarea id="message" name="message" cols="100" rows="20" class="input1">{MESSAGE}</textarea></td>
+	<td width="30%" valign="top" bgcolor="#EFEFEF"><b>Templates variables</b><br>(Set cursor in text area where you want insert variable, than click on link)<br><br>{TVARS_LIST}</td>
+	</tr>
+	</table>
+	</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td colspan="2" align="right">
+	<input type="submit" value="Save" class="input1">
+	<input type="button" value="Back" class="input1" onmouseup="window.location.href='templates.php'">
+	</td>
+	</tr>
+	</form>
+	</table><br>
+<!-- END: action -->
+<!-- BEGIN: view -->
+	<table border="0" cellpadding="2" cellspacing="0" width="50%">
+	<tr>
+	<td align="right">{SELECTOR_LINKS}</td>
+	</tr>
+	</table>
+	<table border="0" cellpadding="5" cellspacing="1" width="40%" class="inner_table_header">
+	<form id="form1" action="templates.php" method="post">
+	<input type="hidden" id="act" name="act" value="del">
+	<tr>
+	{TABLE_HEADER}
+	</tr>
+	<!-- BEGIN: list -->
+	<tr class="unselected_row" id="tr{_ID}" onmouseover="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='active_row'" onmouseout="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='unselected_row'">
+	<td align="center">{NUM}</td>
+	<td align="center">{SELECT}</td>
+	<td>{TEMPLATE_NAME}</td>
+	<td>{TEMPLATE_WEBSITE}</td>
+	<td align="center">{ACTION}</td>
+	</tr>
+	<!-- END: list -->
+	</table>
+	</form>
+	<table border="0" cellpadding="2" cellspacing="0" width="50%">
+	<tr>
+	<td align="right">{SELECTOR_LINKS}</td>
+	</tr>
+	</table>
+<!-- END: view -->	
+	<br><br>
+</td></tr>
+</table>
+<!-- END: templates -->

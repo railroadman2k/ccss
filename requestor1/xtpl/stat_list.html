@@ -1,0 +1,61 @@
+<!-- BEGIN: stat_list -->
+<table width="100%" border="0" cellpadding="6" cellspacing="1">
+<tr valign="bottom" bgcolor="#264460">
+    <td class="whitetext3">Views</td>
+</tr>
+<tr bgcolor="#325B81">
+    <td class="right">
+        <a href=stat.php>Daily</a><br><br>
+        <a href=stat_monthly.php>Monthly</a><br><br>
+        <a href=stat_managers.php>Managers</a><br><br>
+    </td>
+</tr>
+</table>
+
+<br>
+
+<!-- BEGIN: manager_list -->
+<table width="100%" border="0" cellpadding="6" cellspacing="1">
+{TEXT}
+<tr valign="bottom" bgcolor="#264460">
+<td class="whitetext2">Managers </td>
+<td class="orange">New</td>
+<td class="orange">Opened</td>
+</tr>
+<!-- BEGIN: list -->
+<tr bgcolor="#325B81">
+<td align="right">{MANAGER_NAME}</td>
+<!-- BEGIN: manager_tickets_status -->
+<td align="center"><font color="orange" size=-5>{TOTAL_STATUS}</font></td>
+<!-- END: manager_tickets_status -->
+</tr>
+<!-- END: list -->
+</table>
+<!-- END: manager_list -->
+
+<!-- BEGIN: avg_answer -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr valign="bottom" bgcolor="#FFFFFF">
+    <td class="middle_blue_text" align="center">Average<br>time of first answer</td>
+</tr>
+<tr valign="bottom">
+    <td class="complain_on" align="center">{AVG_ANSWER}</td>
+</tr>
+
+</table>
+<!-- END: avg_answer -->
+<br>
+<!-- BEGIN: avg_lifetime -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr valign="bottom" bgcolor="#FFFFFF">
+    <td class="middle_blue_text" align="center">Average<br>time of ticket's life</td>
+</tr>
+<tr valign="bottom">
+    <td class="complain_on" align="center">{AVG_LIFETIME}</td>
+</tr>
+
+</table>
+<!-- END: avg_lifetime -->
+
+
+<!-- END: stat_list -->

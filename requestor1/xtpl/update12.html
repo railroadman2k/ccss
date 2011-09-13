@@ -1,0 +1,100 @@
+<!-- BEGIN: update -->
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td align="right" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+<tr><td align="center"><br>
+	<form id="form1" action="update12.php" method="post">
+	<input type="hidden" id="act" name="act" value="">
+	<input type="hidden" name="message_status" value="{MESSAGE_STATUS}">
+	
+	</form>
+	<table border="0" cellpadding="8" cellspacing="1" width="80%">
+	<form id="form2" action="{URI}" method="post">
+	<input type="hidden" name="message_status" value="{MESSAGE_STATUS}">
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text" width="20%">Templates for answer here</td>
+	<td width="80%">{TEMPLATES_LIST}</td>
+	</tr>
+	</form>
+	</table><br>
+	<!-- BEGIN: reply_message -->
+	<div style="position:relative; left:0px; top:0px; width:80%; height:100px; z-index:1; overflow: auto; visibility: visible;" align="justify">
+	{REPLY_MESSAGE}
+	</div><br>
+	<!-- END: reply_message -->
+	<table border="0" cellpadding="8" cellspacing="1" width="80%">
+	<form action="update12.php" method="post">
+	<input type="hidden" name="act" value="add_message">
+<!-- BEGIN: ticket_info -->
+	<tr bgcolor="#FFFFFF">
+	<td width="15%" class="middle_blue_text" valign="top">Applicant: </td>
+	<td width="75%">{APPLICANT}
+	<div align="right"><input type="button" value="Back" class="input1" onmouseup="document.location.href='{MAIN_HOST}show_ticket.php'"></div>
+	</td>
+	
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text" valign="top">Ticket info:</td>
+	<td>{TICKET_INFO}</td>
+	</tr>
+<!-- END: ticket_info -->
+<!-- BEGIN: group_tickets -->
+	<tr bgcolor="#FFFFFF">
+	<td width="15%" class="middle_blue_text" valign="top">Applicants: </td>
+	<td width="85%">
+	<div style="position:relative; left:0px; top:0px; width:100%; height:60px; z-index:1; overflow: auto; visibility: visible;">
+<!-- BEGIN: group_ticket_info -->
+	{APPLICANT}
+<!-- END: group_ticket_info -->
+	</div>
+	</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text" valign="top">Tickets info:</td>
+	<td>
+	<div style="position:relative; left:0px; top:0px; width:100%; height:60px; z-index:1; overflow: auto; visibility: visible;">
+<!-- BEGIN: group_ticket_info1 -->
+	{TICKET_INFO}
+<!-- END: group_ticket_info1 -->
+	</div>
+	</td>
+	</tr>
+<!-- END: group_tickets -->
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text" valign="top">Type message:</td>
+	<td>{TYPE_MESSAGE}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text" valign="top">Subject:</td>
+	<td><input type="text" name="subject" value="{SUBJECT}" class="input1" size="120"></td>
+	</tr>
+	
+	
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text" valign="top">Message:</td>
+	<td><textarea name="message" cols="120" rows="20" class="input1">{MESSAGE}</textarea></td>
+	</tr>
+	
+	
+	
+	
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text" valign="top">Message:{TICKET_ID}</td>
+	
+	
+	<td>
+	{FILE "xtpl/group_operations_new.html"}</td>
+	
+	
+	</tr>
+	</form>
+	
+	
+	</table>
+	<br><br>
+</td></tr>
+</table>
+<!-- END: update -->

@@ -1,0 +1,71 @@
+<!-- BEGIN: queues -->
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td>{SELECTOR_NUMROWS}</td>
+<td>{ADD_QUEUE}</td>
+<td align="right" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+<tr><td align="center">
+	<!-- BEGIN: error -->
+	<table border="0" width="40%" cellspacing="1" cellpadding="5" class="td_dark" bgcolor="#222222">
+	<tr>
+	<td align="center" width=100 bgcolor="#FFFFFF"><img src="{MAIN_HOST}images/ico-warning.jpg" width="40" height="35"></td>
+	<td bgcolor="#FFFFFF" class="error_text" width=400>{ERROR}</td>
+	</tr>
+	</table>
+	<br>
+	<!-- END: error -->
+	<!-- BEGIN: action -->
+	<table border="0" cellpadding="8" cellspacing="1" width="60%" class="inner_table_header">
+	<form action="queues.php" method="post">
+	<input type="hidden" name="act" value="save">
+	{ID}
+	<tr>
+	<td colspan="2" class="whitetext2">Queue</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td><span {CLASS_NAME}>Queue name</span> (*)</td>
+	<td><input type="text" name="name" value="{NAME}" size="60" class="input1"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td><span {CLASS_EMAIL}>Email</span> (*)</td>
+	<td><input type="text" name="email" value="{EMAIL}" size="60" class="input1"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td colspan="2" align="right">
+	<input type="submit" value="Save" class="input1">
+	<input type="button" value="Back" class="input1" onmouseup="window.location.href='queues.php'">
+	</td>
+	</tr>
+	</form>
+	</table><br>
+	<!-- END: action -->
+	<!-- BEGIN: view -->
+	<table border="0" cellpadding="0" cellspacing="0" width="80%">
+	<tr>
+	<td align="right">{SELECTOR_LINKS}</td>
+	</tr>
+	</table>
+	<table border="0" cellpadding="5" cellspacing="1" width="80%" class="inner_table_header">
+	<tr>
+	{TABLE_HEADER}
+	</tr>
+	<!-- BEGIN: list -->
+	<tr bgcolor="#FFFFFF">
+	<td align="center">{NUM}</td>
+	<td>{NAME}</td>
+	<td>{EMAIL}</td>
+	<td align="center">{ACTION}</td>
+	</tr>
+	<!-- END: list -->
+	</table>
+	<table border="0" cellpadding="0" cellspacing="0" width="80%">
+	<tr>
+	<td align="right">{SELECTOR_LINKS}</td>
+	</tr>
+	</table>
+	<!-- END: view -->
+	<br><br>
+<!-- END: queues -->

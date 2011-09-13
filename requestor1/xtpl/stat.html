@@ -1,0 +1,72 @@
+<!-- BEGIN: stat -->
+
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td align="left" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+<tr>
+  <td>
+    <!-- BEGIN: selects -->
+    <br>
+    <div align="center">
+    <form action="{ACTION}" method="post">
+    <table width="98%" border="0" cellpadding="6" cellspacing="0">
+    <tr bgcolor="#325B81">
+    <td>{STAT_TYPES}</td>
+    <td>{MANAGERS}</td>
+    <td>{MONTHES}</td>
+    <td>{YEARS}</td>
+    <td><input type="submit" value="Show stat" class="input1"></td>
+    </tr>
+    </table>
+    </form>
+    </div>
+    <!-- END: selects -->
+  </td>
+</tr>
+
+<tr><td align="center" valign="bottom"><br>
+    {ANSWER}
+        <table border="0" cellspacing="0" cellpadding="0" align="center" valign="bottom">
+        <tr valign="bottom">
+        <!-- BEGIN: graf_td -->
+          <td align="center" valign="bottom" width="30">
+            {IMAGES}
+          </td>
+        <!-- END: graf_td -->
+        </tr>
+        <tr>
+        <!-- BEGIN: graf_td_caption -->
+          <td align="center" valign="bottom" width="30" class="small">{CAPTION}</td>
+        <!-- END: graf_td_caption -->
+        </tr>
+        </table>
+    <br><br>
+<!-- BEGIN: stat_body -->
+    <table border="0" cellpadding="5" cellspacing="1" class="inner_table_header">
+
+    <tr>
+    <td width="40" class="table_header_text">{HEAD_NAME}</td>
+    <!-- BEGIN: head_list -->
+    <td width="20" height="20" align="center" valign="center" bgcolor="{HEAD_LIST_COLOR}" class="middle_blue_text">{HEAD_LIST_ITEM}</td>
+    <!-- END: head_list -->
+    </tr>
+
+    <!-- BEGIN: list_tr -->
+    <tr>
+    <td class="table_header_text">{DAY}</td>
+    <!-- BEGIN: list_td -->
+    <td width="20" class="stat_row" align="center">{TD_CONTENT}</td>
+    <!-- END: list_td -->
+    </tr>
+    <!-- END: list_tr -->
+
+    </table>
+
+<!-- END: stat_body -->
+</td></tr>
+</table>
+<!-- END: stat -->

@@ -1,0 +1,40 @@
+<!-- BEGIN: stat_tickets -->
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td align="left" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+<tr><td><br>
+    <form id="form1" action="tickets.php" method="post">
+    <input type="hidden" id="act" name="act" value="">
+    <table border="0" cellpadding="5" cellspacing="1" width="100%" class="inner_table_header">
+    <tr>
+    {TABLE_HEADER}
+    </tr>
+    <!-- BEGIN: list -->
+    <tr class="unselected_row" id="tr{_ID}" onmouseover="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='active_row'" onmouseout="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='unselected_row'">
+    <td align="center">{NUM}</td>
+    <td align="center">{SELECT}</td>
+    <td width="50%">{SUBJECT}<br><span class="small2">Ticket ID: {TICKET_ID}</span></td>
+    <td>{QUEUE}</td>
+    <td><span class="{STATUS_CLASS}">{TICKET_STATUS}</td>
+    <td>{OWNER}</td>
+    <td>{FROM}</td>
+    <td><span class="{COMPLAIN_STATUS}">{COMPLAIN}</span></td>
+    <td>{RATE}</td>
+    <td align="center">{UPDATED}</td>
+    <td align="center">{CREATED}</td>
+    </tr>
+    <!-- END: list -->
+    </table>
+    </form>
+    <table border="0" cellpadding="2" cellspacing="0" width="100%">
+    <tr>
+    <td align="right">{SELECTOR_LINKS}</td>
+    </tr>
+    </table>
+    <br><br>
+</td></tr>
+</table>
+<!-- END: stat_tickets -->

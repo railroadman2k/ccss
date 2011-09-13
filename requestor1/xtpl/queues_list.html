@@ -1,0 +1,44 @@
+<!-- BEGIN: queues_list -->
+<table width="100%" border="0" cellpadding="6" cellspacing="1">
+{TEXT}
+<tr valign="bottom" bgcolor="#264460">
+<td class="whitetext2">Sites</td>
+<td class="orange">New</td>
+<td class="orange">Opened</td>
+</tr>
+<!-- BEGIN: list -->
+<tr bgcolor="#325B81">
+<td align="right">{TOTAL_QUEUE}</td>
+<!-- BEGIN: tickets_status -->
+<td align="center">{TOTAL_STATUS}</td>
+<!-- END: tickets_status -->
+</tr>
+<!-- END: list -->
+
+
+
+<tr bgcolor="#325B81">
+<td align="center" >
+<a href ="request.php?ext=true&status=request" class="queue">to members</a> </td>
+<td align="center"><a href="request.php?ext=true&status=new">{NEW_REQ}</a></td>
+<td  align="center"><a href="request.php?ext=true&status=opened">{OPENED_REQ}</a></td>
+</tr>
+
+
+<tr bgcolor="#325B81">
+<td align="center" >
+<a href ="account.php" class="queue">My tickets</a> </td>
+<td align="center"><a href="account.php">{NEW_MY}</a></td>
+<td  align="center"><a href="account.php">{OPEN_MY}</a></td>
+</tr>
+
+
+</table>
+<!-- END: queues_list -->
+
+<br>
+<!-- BEGIN: next_queues_list -->
+
+<!-- END: next_queues_list -->
+<br><br>
+

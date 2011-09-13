@@ -1,0 +1,186 @@
+<!-- BEGIN: tickets -->
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td>{SELECTOR_NUMROWS}</td>
+
+<td>{SEARCH_LINK}</td>
+<td align="center" class="whitetext2">
+<form action="create_ticket.php"  method="POST" name="f1">
+<!-- BEGIN: external -->
+ <select name='site'  class="input1">
+<option value='http://ualadys.com/'>UA</option>
+<option value='http://arladys.com/'>AR</option>
+<option value='http://ruladys.com/'>RU</option>
+<option value='http://brladys.com/'>BR</option>
+
+</select>
+
+<input type="text" name='id' size="6">
+<input type="hidden" name='queues' value="{QUEUES}"> 
+<input type="hidden" name='ext' value="true"> 
+<input type="submit"  class="input1" value="Create Request">
+<!-- END: external -->
+
+<!-- BEGIN: internal -->
+{INTERNAL_FORM}
+
+<input type="hidden" name='queues' value="{QUEUES}"> 
+<input type="hidden" name='int' value="true"> 
+<input type="submit"  class="input1" value="Create Request">
+<!-- END: internal -->
+
+</form>
+</td>
+<td align="right" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+<tr><td><br>
+    <form id="form1" action="tickets.php" method="post">
+    <input type="hidden" id="act" name="act" value="">
+    {FILE "xtpl/group_operations.html"}
+    <table border="0" cellpadding="2" cellspacing="0" width="100%">
+    <tr>
+    <td align="right">{SELECTOR_LINKS}</td>
+    </tr>
+    </table>
+    <table border="0" cellpadding="5" cellspacing="1" width="100%" class="inner_table_header">
+    {ADD_FIELDS}
+    <tr>
+    {TABLE_HEADER}
+    </tr>
+    <!-- BEGIN: list -->
+    <tr class="unselected_row" id="tr{_ID}" onmouseover="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='active_row'" onmouseout="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='unselected_row'">
+    <td align="center">{NUM}</td>
+    <td align="center">{SELECT}</td>
+    <td align="center" class="small" width="50%">{SUBJECT}<br><span class="grey">ticket id:</span><span class="small2"> {TICKET_ID}</span></td>
+    <td align="center" class="small"><p>{QUEUE}</p>
+      <p>{SITE}</p></td>
+    <td align="center"><span class="{STATUS_CLASS}">{TICKET_STATUS}
+<br>
+<br>
+{ANSWERED}
+</td>
+	
+    <td class="small2" align="center">{OWNER}</td>
+	<td class="small2" align="center">{PRIORITY}</td>
+    <td class="small">{FROM}</td>
+	
+    <td align="center"><span class="{COMPLAIN_STATUS}">{COMPLAIN}</span></td>
+    <td align="center" class="small">{RATE}</td>
+    <td align="center" class="small">{UPDATED}</td>
+    <td align="center" class="small">{CREATED}</td>
+    </tr>
+    <!-- END: list -->
+    </table>
+    </form>
+    <table border="0" cellpadding="2" cellspacing="0" width="100%">
+    <tr>
+    <td align="right">{SELECTOR_LINKS}</td>
+    </tr>
+    </table>
+    <br><br>
+</td></tr>
+</table>
+<!-- END: tickets -->
+
+<!-- BEGIN: request -->
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td>{SELECTOR_NUMROWS}</td>
+
+<td>{SEARCH_LINK}</td>
+<td align="center" class="whitetext2">
+<form action="create_ticket.php"  method="POST" name="f1">
+ <select name='site'  class="input1">
+<option value='http://ualadys.com/'>UA</option>
+<option value='http://arladys.com/'>AR</option>
+<option value='http://ruladys.com/'>RU</option>
+</select>
+<input type="text" name='id' size="6">
+<input type="hidden" name='queues' value="{QUEUES}"> 
+<input type="submit"  class="input1" value="Create Request">
+</form>
+</td>
+
+
+<td align="right" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+
+
+
+
+<tr><td><br>
+    
+<form name="form3" action="request.php" method="post">
+<div align="center">
+
+<table width="98%" border="0" cellpadding="1" cellspacing="0">
+
+<tr bgcolor="#325B81">
+
+<td> Select tickets with status: <select name="status" class="input1" >
+<option value="new">new</option>
+<option value="opened">opened</option>
+<option value="closed">closed</option>
+<option value="request">request</option>
+</select> 
+</td>
+<td>{SEL_OWNERS}</td>
+<td><input type="submit" value="Select tickets" class="input1" ></td>
+
+
+</tr>
+
+</table>
+
+</div>
+</form>
+
+
+
+
+
+<tr><td><br>
+    <form id="form1" action="tickets.php" method="post">
+    <input type="hidden" id="act" name="act" value="">
+    {FILE "xtpl/group_operations.html"}
+    <table border="0" cellpadding="2" cellspacing="0" width="100%">
+    <tr>
+    <td align="right">{SELECTOR_LINKS}</td>
+    </tr>
+    </table>
+    <table border="0" cellpadding="5" cellspacing="1" width="100%" class="inner_table_header">
+    {ADD_FIELDS}
+    <tr>
+    {TABLE_HEADER}
+    </tr>
+    <!-- BEGIN: list -->
+    <tr class="unselected_row" id="tr{_ID}" onmouseover="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='active_row'" onmouseout="if(document.getElementById('tr{_ID}').className != 'selected_row') document.getElementById('tr{_ID}').className='unselected_row'">
+    <td align="center">{NUM}</td>
+    <td align="center">{SELECT}</td>
+    <td align="center" class="small" width="50%">{SUBJECT}<br><span class="grey">ticket id:</span><span class="small2"> {TICKET_ID}</span></td>
+    <td align="center" class="small"><p>{QUEUE}</p>
+      <p>{SITE}</p></td>
+    <td align="center"><span class="{STATUS_CLASS}">{TICKET_STATUS}</td>
+    <td class="small2" align="center">{OWNER}</td>
+    <td class="small">{FROM}</td>
+    <td align="center"><span class="{COMPLAIN_STATUS}">{COMPLAIN}</span></td>
+    <td align="center" class="small">{RATE}</td>
+    <td align="center" class="small">{UPDATED}</td>
+    <td align="center" class="small">{CREATED}</td>
+    </tr>
+    <!-- END: list -->
+    </table>
+    </form>
+    <table border="0" cellpadding="2" cellspacing="0" width="100%">
+    <tr>
+    <td align="right">{SELECTOR_LINKS}</td>
+    </tr>
+    </table>
+    <br><br>
+</form></tr>
+</table>
+<!-- END: request -->

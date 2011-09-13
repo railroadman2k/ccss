@@ -1,0 +1,117 @@
+<!-- BEGIN: show_ticket -->
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="background_table">
+<tr>
+<form id="form1" action="show_ticket.php" method="post">
+<input type="hidden" id="act" name="act" value="">
+<td width="40%" valign="top">
+	<table border="0" cellpadding="4" cellspacing="1" width="100%" class="top_table_header">
+	<tr>
+	<td colspan="2" class="whitetext3">Ticket info</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td width="20%" class="middle_blue_text">Ticket ID:</td>
+	<td width="80%" class="middle_red_text" colspan="2">#{TICKET_ID}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td width="20%" class="middle_blue_text">Website:</td>
+	<td width="80%" class="middle_red_text" colspan="2">{TIC_WEBSITE}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">Owner:</td>
+	<td class="middle_red_text">{OWNER}</td>
+	<td>{ANOTHERS_OWNERS}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">Status:</td>
+	<td class="middle_red_text">{TSTATUS}</td>
+	<td>{ANOTHER_STATUS}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">Priority:</td>
+	<td class="middle_red_text">{PRIORITY}</td>
+	<td>{ANOTHER_PRIORITY}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">Queue:</td>
+	<td class="middle_red_text">{QUEUE}</td>
+	<td>{ANOTHER_QUEUES}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">Created:</td>
+	<td colspan="2"><div class="middle_red_text">{CREATED}</div><div class="small2">{CREATED_DAYS_AGO}</div></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">Updated:</td>
+	<td colspan="2"><div class="middle_red_text">{UPDATED}</div><div class="small2">{UPDATED_DAYS_AGO}</div></td>
+	</tr>
+    <tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">Rate:</td>
+	<td class="middle_red_text" colspan="2">{TRATE}</td>
+	</tr>
+    <tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">Complain:</td>
+	<td class="middle_red_text" colspan="2">{TCOMPLAIN}</td>
+	</tr>
+	</table>
+</td>
+</form>
+<td width="60%" valign="top">
+	<table border="0" cellpadding="4" cellspacing="1" width="100%" class="top_table_header">
+	<tr>
+	<td colspan="2" class="whitetext3">Applicant info</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td width="20%" class="middle_blue_text">ID:</td>
+	<td width="80%" class="middle_red_text">{APPLICANT_ID}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">Name:</td>
+	<td class="middle_red_text">{APPLICANT_NAME}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td class="middle_blue_text">E-mail:</td>
+	<td class="middle_red_text">{APPLICANT_EMAIL}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td colspan="2" class="middle_blue_text">All tickets of applicant</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td colspan="2" align="center">
+	<div style="position:relative; left:0px; top:0px; width:98%; height:100px; z-index:1; overflow: auto; visibility: visible;" align="justify">
+	<table border="0" cellpadding="3" cellspacing="0" width="100%">
+	<!-- BEGIN: last_ten_tickets -->
+	<tr><td>{APPLICANT_TICKETS}</td></tr>
+	<!-- END: last_ten_tickets -->
+	</table>
+	</div>
+	</td>
+	</tr>
+	</table>
+</td>
+</tr>
+<tr>
+<td align="center" colspan="2">
+	<table border="0" cellpadding="3" cellspacing="1" width="100%" class="top_table_header">
+	<td><span class="whitetext2">Subject:</span> <span class="whitetext3">{TICKET_SUBJECT}</span></td>
+	</tr>
+	</tr>
+	</table>
+	<table border="0" cellpadding="6" cellspacing="1" width="100%" bgcolor="#999999">
+	<!-- BEGIN: history_list -->
+	<tr>
+	<td class="whitetext" width="20%" bgcolor="#000000">{DATE}</td>
+	<td width="5%" bgcolor="#000000">{ACTIONS}</td>
+	<td class="whitetext_2" width="75%" bgcolor="#051732">{COMMENT}</td>
+	</tr>
+	<!-- BEGIN: body_exists -->
+	<tr class="{MESSAGE_CLASS}">
+	<td colspan="3"><div class="{MESSAGE_CLASS}">{MESSAGE_BODY}</div></td>
+	</tr>
+	<!-- END: body_exists -->
+	<!-- END: history_list -->
+	</table>
+</td>
+</tr>
+</table><br>
+<br><br>
+<!-- END: show_ticket -->

@@ -1,0 +1,72 @@
+<!-- BEGIN: search_tickets -->
+<table border="0" cellpadding="8" cellspacing="0" width="100%" class="top_table_header">
+<tr>
+<td align="right" class="whitetext3">{SECTION_NAME}</td>
+</tr>
+</table>
+<table border="0" cellpadding="2" cellspacing="0" width="100%" class="background_table">
+<tr><td align="center"><br><form action="search_tickets.php" method="get">
+	<table border="0" cellpadding="8" cellspacing="1" width="70%" class="inner_table_header">
+	
+	<input type="hidden" name="act" value="search">
+	<tr bgcolor="#FFFFFF">
+	<td width="20%">Owner: </td>
+	<td width="80%">{CONDITION1}&nbsp;{OWNERS}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Applicant email:</td>
+	<td>{CONDITION2}&nbsp;<input type="text" name="email" class="input1" size="60"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Applicant id:</td>
+	<td><input type="text" name="cc_member_id" class="input1" size="9"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Subject:</td>
+	<td>{CONDITION3}&nbsp;<input type="text" name="subject" class="input1" size="60"></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Queue:</td>
+	<td>{CONDITION4}<br>{QUEUES}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Status:</td>
+	<td>{CONDITION5}<br>{STATUS}</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Complain:</td>
+	<td>
+	<input name="complain" type="radio" value="-1" checked>both<br>
+	<input name="complain" type="radio" value="1">complained<br>
+  	<input name="complain" type="radio" value="0">not complained
+  	</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Rate:</td>
+	<td>
+	<select name="rate">
+	    <option value="5">My problem (question) has been resolved completely and in short terms</option>
+	    <option value="4">My problem (question) has been resolved but it took too much time</option>
+	    <option value="3">I am not satisfied with the reply I received</option>
+	    <option value="2">I don't understand your reply</option>
+	    <option value="1">My problem (question) has not been resolved</option>
+	    <option value="-" selected="selected">-</option>
+  	</select>
+	</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td>Created</td>
+	<td>
+	<input name="older_than" type="radio" value="-1">Older then:<br>
+	<input name="older_than" type="radio" value="1" checked>Not older then:<br>
+	<input type="text" name="older_than_d" class="input1" size="5">&nbsp;days
+	</td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+	<td colspan="2" align="right"><input type="submit" value="Search" class="input1"></td>
+	</tr>
+	
+	</table></form><br><br>
+</td></tr>
+</table>
+<!-- END: search_tickets -->

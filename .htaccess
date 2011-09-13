@@ -1,0 +1,3 @@
+DirectoryIndex index.php
+php_value session.gc_maxlifetime 25200
+php_value session.cookie_lifetime 25200
